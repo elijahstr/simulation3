@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component }from 'react';
 import './App.css';
+import routes from './routes';
+import Nav from './Components/Nav/Nav';
+import {useLocation} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  // navRender = () => {
+  //   let location = useLocation();
+  //   console.log(this.props.pathname);
+  // }
+  render() {
+    return (
+      <div>
+        <Nav />
+      {routes}
+      {/* <button onClick={this.navRender}>Test</button> */}
+      </div>
+    )
+  }
 }
-
-export default App;
