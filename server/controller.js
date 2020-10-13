@@ -31,10 +31,51 @@ module.exports = {
         if(!auth){
             return res.status(401).send('Incorrect password')
         }
-
         delete foundUser[0].password;
         req.session.user = foundUser[0];
         res.status(202).send(req.session.user);
 
+    },
+
+    getAllPosts: (req, res) => {
+        const {userposts, search} = req.query,
+        db = req.app.get('db'),
+        finalSearch = search+'%';
+
+        if(userposts==='true'&&search){
+           return db.get_posts.uptrue_and_search(finalSearch)
+            .then(posts => res.status(200).send(posts))
+            .catch(err => res.status(500).send(err));
+        }
+
+        if(userposts==='false'&&!search){
+            return db.get_posts.upfalse_no_search(req.session.user.username)
+            .then(posts => {
+                res.status(200).send(posts)})
+            .catch(err => res.status(500).send(err));
+        }
+
+        if(userposts==='false'&&search){
+            return db.get_posts.upfalse_and_search([finalSearch, req.session.user.username])
+            .then(posts => {
+                res.status(200).send(posts)})
+            .catch(err => res.status(500).send(err));
+        }
+
+        if(userposts==='true'&&!search){
+            return db.get_posts.uptrue_no_search()
+            .then(posts => res.status(200).send(posts))
+            .catch(err => res.status(500).send(err));
+        }
+
+    },
+
+    getOnePost: (req, res) => {
+        const {id} = req.params,
+        db = req.app.get('db');
+
+        db.get_one_post(id)
+        .then(post => res.status(200).send(post))
+        .catch(err => res.status(500).send(err));
     }
 }
