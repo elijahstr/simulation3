@@ -77,5 +77,15 @@ module.exports = {
         db.get_one_post(id)
         .then(post => res.status(200).send(post))
         .catch(err => res.status(500).send(err));
+    },
+
+    editPost: (req, res) => {
+        const {id} = req.params,
+        {content} = req.body,
+        db = req.app.get('db');
+
+        db.edit_post([content, id])
+        .then(post => res.status(200).send(post))
+        .catch(err => res.status(500).send(err));
     }
 }

@@ -25,8 +25,9 @@ massive({
 
 app.post('/auth/register', ctrl.registerUser);
 app.post('/auth/login', ctrl.login);
-app.get('/auth/posts/:id', ctrl.getAllPosts);
-app.get('/auth/one_post/:id', ctrl.getOnePost);
+app.get('/api/posts/:id', ctrl.getAllPosts);
+app.get('/api/one_post/:id', ctrl.getOnePost);
+app.put('/api/edit_post/:id', ctrl.editPost);
 
 
 

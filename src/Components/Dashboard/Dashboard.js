@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react'
-import Post from '../Post/Post';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 class Dashboard extends Component {
     constructor() {
@@ -26,13 +26,18 @@ class Dashboard extends Component {
         }
     }
 
+    goToPost = (postID) => {
+        this.props.history.push(`/post/${postID}`)
+    }
+
     getAllPosts = () => {
-        axios.get(`/auth/posts/${this.props.user.id}?userposts=${this.state.myPosts}&search=${this.state.search}`)
+        axios.get(`/api/posts/${this.props.user.id}?userposts=${this.state.myPosts}&search=${this.state.search}`)
         .then(res => {
             this.setState({posts: res.data})
             this.setState({search: ""})
         })
     }
+
 
     resetFN = () => {
       this.setState({search: ""})
@@ -48,12 +53,18 @@ class Dashboard extends Component {
 
     render() {
         const mappedPosts = this.state.posts.map((data, i) =>(
-            <Post key={i}
-            post={data}
-            title={data.title}
-            profile_pic={data.profile_pic}
-            username={data.username}
-            />
+            <div>
+                {/* {false?null:<Post key={i}
+                post={data}
+                title={data.title}
+                profile_pic={data.profile_pic}
+                username={data.username}
+                />} */}
+                <Link to={`/post/${data.id}`} post={data}>{data.title}</Link>
+                <p>Created by: {data.username}</p>
+                <img src={data.profile_pic} alt={data.username} onClick={() => this.goToPost(data.id)}/>
+                
+            </div>
         ))
         return (
             <div>
